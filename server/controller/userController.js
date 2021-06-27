@@ -83,7 +83,8 @@ class Controller {
                         email: result.email
                     })
                     const role = result.role
-                    res.status(200).json({ access_token, role })
+                    const username = result.username
+                    res.status(200).json({ access_token, role, username })
                 }
                 else {
                     res.status(401).json({ message: 'Wrong email or password' })

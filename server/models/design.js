@@ -11,14 +11,54 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Design.belongsTo(models.Category)
-      Design.belongsTo(models.User)
+      Design.belongsToMany(models.User, { through: "Bookmark" })
+      Design.belongsTo(models.Category, { foreignKey: "CategoriesId" })
+      Design.belongsTo(models.User, { foreignKey: "UsersId" })
     }
   };
   Design.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    image1: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Name is a required field'
+        },
+        notNull: {
+          args: true,
+          msg: 'Name is a required field'
+        }
+      }  
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Description is a required field'
+        },
+        notNull: {
+          args: true,
+          msg: 'Description is a required field'
+        }
+      }  
+    },
+    image1: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Image is a required field'
+        },
+        notNull: {
+          args: true,
+          msg: 'Image is a required field'
+        }
+      }  
+    },
     image2: DataTypes.STRING,
     image3: DataTypes.STRING,
     UsersId: DataTypes.INTEGER,
