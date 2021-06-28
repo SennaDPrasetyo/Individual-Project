@@ -53,35 +53,40 @@ class Controller {
         })
     }
     static addDesign(req, res){
-        const input = {
-            name: req.body.name,
-            description: req.body.description,
-            image1: req.body.image1,
-            image2: req.body.image2,
-            image3: req.body.image3,
-            UsersId: req.user.id,
-            CategoriesId: req.body.CategoriesId
-        }
+        // console.log(res.image)
+        // const input = {
+        //     name: req.body.name,
+        //     description: req.body.description,
+        //     image1: null,
+        //     image2: null,
+        //     image3: null,
+        //     UsersId: req.user.id,
+        //     CategoriesId: req.body.CategoriesId
+        // }
 
-        Design.create(input)
-        .then((result) => {
-            res.status(201).json(result)
-        })
-        .catch((err) => {
-            if (err.name === 'SequelizeValidationError'){
-                const errMsgs = []
+        // if (req.files.length){
 
-                err.errors.forEach((element) => {
-                    errMsgs.push(element.message)
-                })
-                // next({ code: 400, message: errMsgs })
-                res.status(400).json({ message: errMsgs })
-            }
-            else {
-                // next({ code: 500, message: err.message })
-                res.status(500).json({ message: err.message })
-            }
-        })
+        // }
+
+        // Design.create(input)
+        // .then((result) => {
+        //     res.status(201).json(result)
+        // })
+        // .catch((err) => {
+        //     if (err.name === 'SequelizeValidationError'){
+        //         const errMsgs = []
+
+        //         err.errors.forEach((element) => {
+        //             errMsgs.push(element.message)
+        //         })
+        //         // next({ code: 400, message: errMsgs })
+        //         res.status(400).json({ message: errMsgs })
+        //     }
+        //     else {
+        //         // next({ code: 500, message: err.message })
+        //         res.status(500).json({ message: err.message })
+        //     }
+        // })
     }
     static deleteDesign(req, res){
         Design.destroy({
