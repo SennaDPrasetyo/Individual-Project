@@ -19,7 +19,7 @@ class Controller {
         const offset = (page - 1) * size
 
         Design.findAndCountAll({
-            include: [Category, User],
+            include: [Category],
             limit,
             offset,
             where: filter
