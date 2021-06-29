@@ -1,7 +1,8 @@
-function imagekit(req, res, next){
-    const axios = require('axios')
-    const formData = require('form-data')
+const axios = require('axios')
+const formData = require('form-data')
+let pictures = []
 
+function imagekit(req, res, next){
     req.files.forEach((element) => {
         if (!element){
             next()
@@ -12,10 +13,9 @@ function imagekit(req, res, next){
         else {
             let api_key = Buffer.from(process.env.PRIVATE_KEY, 'utf8').toString("base64")
             const data = new formData()
-            let pictures = []
             data.append('file', element.buffer.toString('base64'))
             data.append('fileName', element.originalname)
-        
+
             axios({
                 url: 'https://upload.imagekit.io/api/v1/files/upload',
                 method: 'post',
@@ -27,15 +27,17 @@ function imagekit(req, res, next){
             })
             .then((result) => {
                 pictures.push(result.data.url)
-                console.log(pictures) //problem
                 res.image = pictures
-                next()
+
+                if (res.image.length === 3){
+                    next()
+                }
             })
             .catch((err) => {
                 next({ code: 500, message: err.message })
             })
         } 
-    });
+    })
 }
 
 module.exports = imagekit

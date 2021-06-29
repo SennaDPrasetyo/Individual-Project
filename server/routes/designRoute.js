@@ -15,6 +15,6 @@ router.use(authentication)
 router.post('/', upload.array('DesignImage', 3), imageKit, addDesignAuthorization, designController.addDesign)
 router.use('/:id', editDeleteDesignAuthorization)
 router.delete('/:id', designController.deleteDesign)
-router.put('/:id', designController.editDesign)
+router.put('/:id', upload.array('DesignImage', 3), imageKit, designController.editDesign)
 
 module.exports = router

@@ -53,40 +53,41 @@ class Controller {
         })
     }
     static addDesign(req, res){
-        // console.log(res.image)
-        // const input = {
-        //     name: req.body.name,
-        //     description: req.body.description,
-        //     image1: null,
-        //     image2: null,
-        //     image3: null,
-        //     UsersId: req.user.id,
-        //     CategoriesId: req.body.CategoriesId
-        // }
+        const input = {
+            name: req.body.name,
+            description: req.body.description,
+            image1: null,
+            image2: null,
+            image3: null,
+            UsersId: req.user.id,
+            CategoriesId: req.body.CategoriesId
+        }
 
-        // if (req.files.length){
+        if (req.files.length){
+            input.image1 = res.image[0]
+            input.image2 = res.image[1]
+            input.image3 = res.image[2]
+        }
 
-        // }
+        Design.create(input)
+        .then((result) => {
+            res.status(201).json(result)
+        })
+        .catch((err) => {
+            if (err.name === 'SequelizeValidationError'){
+                const errMsgs = []
 
-        // Design.create(input)
-        // .then((result) => {
-        //     res.status(201).json(result)
-        // })
-        // .catch((err) => {
-        //     if (err.name === 'SequelizeValidationError'){
-        //         const errMsgs = []
-
-        //         err.errors.forEach((element) => {
-        //             errMsgs.push(element.message)
-        //         })
-        //         // next({ code: 400, message: errMsgs })
-        //         res.status(400).json({ message: errMsgs })
-        //     }
-        //     else {
-        //         // next({ code: 500, message: err.message })
-        //         res.status(500).json({ message: err.message })
-        //     }
-        // })
+                err.errors.forEach((element) => {
+                    errMsgs.push(element.message)
+                })
+                // next({ code: 400, message: errMsgs })
+                res.status(400).json({ message: errMsgs })
+            }
+            else {
+                // next({ code: 500, message: err.message })
+                res.status(500).json({ message: err.message })
+            }
+        })
     }
     static deleteDesign(req, res){
         Design.destroy({
@@ -116,6 +117,12 @@ class Controller {
             image3: req.body.image3,
             UsersId: req.user.id,
             CategoriesId: req.body.CategoriesId
+        }
+
+        if (req.files.length){
+            input.image1 = res.image[0]
+            input.image2 = res.image[1]
+            input.image3 = res.image[2]
         }
         
         Design.update(input, {
